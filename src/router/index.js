@@ -22,6 +22,15 @@ const router = new VueRouter({
       },
       meta: { unauthorized: true },
     },
+    {
+      path: "/buy",
+      name: "buy",
+      components: {
+        Header,
+        contents: () => import("@/views/buy/BuyCoin.vue"),
+      },
+      meta: { unauthorized: true },
+    },
     //404
     {
       path: "*",
