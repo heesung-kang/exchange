@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-const lnb = () => import("@/components/common/Header.vue");
+const Header = () => import("@/components/common/Header.vue");
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -11,14 +11,14 @@ const router = new VueRouter({
   routes: [
     {
       path: "/",
-      redirect: "/main",
+      redirect: "/quote",
     },
     {
-      path: "/main",
-      name: "main",
+      path: "/quote",
+      name: "quote",
       components: {
-        lnb,
-        contents: () => import("@/views/Main.vue"),
+        Header,
+        contents: () => import("@/views/quote/CoinQuote.vue"),
       },
       meta: { unauthorized: true },
     },

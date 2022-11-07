@@ -2,18 +2,11 @@
   <v-app>
     <v-main class="main-container">
       <div class="layout-wrap">
-        <div class="layout-right">
-          <div class="sign-out" @click="signOut"><v-icon>mdi-logout-variant</v-icon></div>
-          <router-view name="lnb" :show="show" @close="close"></router-view>
+        <div class="header">
+          <router-view name="Header" :show="show" @close="close"></router-view>
         </div>
-        <div class="layout-left">
-          <div class="hamburg-menu" @click="showLnb">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+        <div class="contents">
           <router-view name="contents"></router-view>
-          <router-view name="footer"></router-view>
         </div>
       </div>
       <router-view />
@@ -25,10 +18,6 @@
 <script>
 import { mapGetters } from "vuex";
 import { mobileBreakPoint } from "@/utils/mobileBreakPoint";
-import { getAuth, signOut } from "firebase/auth";
-import { deleteCookie } from "@/utils/cookie";
-import { app } from "@/utils/db";
-const auth = getAuth(app);
 export default {
   name: "App",
   data() {
@@ -67,16 +56,6 @@ export default {
     },
     close() {
       this.show = false;
-    },
-    signOut() {
-      signOut(auth)
-        .then(() => {
-          deleteCookie("userInfo");
-          this.$router.push("/login");
-        })
-        .catch(error => {
-          console.log(error);
-        });
     },
   },
 };
@@ -128,14 +107,5 @@ export default {
   top: 25px;
   z-index: 1;
   cursor: pointer;
-}
-@include lnb {
-  .sign-out {
-    i {
-      &:before {
-        color: #fff !important;
-      }
-    }
-  }
 }
 </style>
