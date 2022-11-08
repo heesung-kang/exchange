@@ -2,7 +2,7 @@
   "name": "expert-front",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://heesung-kang.github.io/BooksAdmin/",
+  "homepage": "https://heesung-kang.github.io/exchange/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
