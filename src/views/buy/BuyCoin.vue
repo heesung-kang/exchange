@@ -24,13 +24,28 @@
       </div>
     </div>
     <div class="ck-wrap mt64 ml10">
-      <input type="checkbox" v-model="check" id="ck" /><label for="ck"></label><span>인스타코인 구매약관</span>에 동의합니다
+      <input type="checkbox" v-model="check" id="ck" /><label for="ck"></label><span @click="dialog = true">인스타코인 구매약관</span>에 동의합니다
     </div>
     <button class="btn-buy mt20" :disabled="!check">구매하기</button>
+
+    <!-- 구매 약관 -->
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+      <section class="terms-header">
+        <h2>구매 약관</h2>
+        <div class="close" @click="dialog = false"><img src="@/assets/images/close.svg" alt="닫기" /></div>
+      </section>
+      <section class="terms-body">
+        <div class="terms-body-wrap">
+          <h3>인스타코인 구매 약관</h3>
+          <div class="term">내용...</div>
+        </div>
+      </section>
+    </v-dialog>
   </div>
 </template>
 
 <script>
+import { comma, commaEssence } from "@/utils/comma";
 export default {
   name: "BuyCoin",
   data() {
@@ -39,21 +54,15 @@ export default {
       initCoin: 0, //최종 coin
       check: false,
       inputShow: false,
+      dialog: false,
     };
   },
   computed: {
     krw() {
-      return String(this.initKrw).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+      return comma(this.initKrw);
     },
     inc() {
-      let calc = String(this.initKrw * 1.2);
-      const arr = calc.split("."); //정수, 소숫점이하 분리
-      let first = String(arr[0]).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,"); //정수에 콤마
-      if (arr[1] === undefined) {
-        return `${first}`;
-      } else {
-        return `${first}.${arr[1]}`;
-      }
+      return commaEssence(this.initKrw * 1.2);
     },
   },
   watch: {
@@ -180,6 +189,40 @@ input[type="number"] {
       position: absolute;
       left: 0;
       top: 0;
+    }
+  }
+}
+.terms-header {
+  background-color: #fff;
+  height: 60px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 23px 0 20px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  h2 {
+    @include NotoSans(2, 500, #000);
+  }
+  .close {
+    cursor: pointer;
+  }
+}
+.terms-body {
+  height: calc(100vh - 60px);
+  background-color: #fff;
+  padding: 25px 20px;
+  .terms-body-wrap {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    h3 {
+      @include NotoSans(2, 500, #000);
+    }
+    .term {
+      margin-top: 16px;
+      @include NotoSans(1.4, 500, #000);
     }
   }
 }
