@@ -8,15 +8,25 @@
     </div>
     <h1>인스타코인</h1>
     <div class="quote">
-      <div class="init-wrap" v-if="inputShow">
-        <input class="number" type="number" v-model="initKrw" @blur="inputShow = false" />
+      <div class="exchange-wrap">
+        <div class="krw" @click="inputShow = true">
+          <span class="money">
+            <input v-if="inputShow" class="number" type="number" v-model="initKrw" @blur="inputShow = false" />
+            <span v-else>{{ krw }}</span> </span
+          ><span class="unit">KRW</span>
+        </div>
+        <div class="coin">
+          <span class="money"
+            ><span>{{ inc }}</span>
+            <div class="commission">수수료 0.1%</div></span
+          ><span class="unit">INC</span>
+        </div>
       </div>
-      <div class="krw" @click="inputShow = true" v-else>{{ krw }}<span>KRW</span></div>
-      <div>{{ inc }}<span>INC</span></div>
-      <div>수수료 0.1%</div>
     </div>
-    <div class="ck-wrap"><input type="checkbox" v-model="check" id="ck" /><label for="ck">인스타코인 구매약관에 동의합니다</label></div>
-    <div><button>구매하기</button></div>
+    <div class="ck-wrap mt64 ml10">
+      <input type="checkbox" v-model="check" id="ck" /><label for="ck"></label><span>인스타코인 구매약관</span>에 동의합니다
+    </div>
+    <button class="btn-buy mt20" :disabled="!check">구매하기</button>
   </div>
 </template>
 
@@ -75,12 +85,63 @@ h1 {
 .quote {
   position: relative;
   margin-top: 46px;
-  .init-wrap {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .commission {
+    @include NotoSans(1.6, 500, #888888);
+    text-align: right;
+    margin-top: 10px;
   }
-  .krw {
+  .exchange-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75%;
+    margin: 0 auto;
+    position: relative;
+    .krw {
+      width: 100%;
+      @include NotoSans(2.4, 500, #000);
+      display: flex;
+      justify-content: space-between;
+      .unit {
+        @include NotoSans(2.4, 500, #4bc1c2);
+        width: 50px;
+      }
+      .money {
+        padding-bottom: 5px;
+        border-bottom: 1px solid #888888;
+        background: url("../../assets/images/arrow_down.svg") no-repeat right 10px top 15px;
+        .number {
+          text-align: right;
+          @include NotoSans(2.4, 500, #000);
+          width: calc(100% - 61px);
+        }
+      }
+    }
+    .coin {
+      width: 100%;
+      @include NotoSans(2.4, 500, #000);
+      display: flex;
+      justify-content: space-between;
+      .unit {
+        width: 50px;
+      }
+    }
+    .money {
+      width: calc(100% - 65px);
+      text-align: right;
+      padding-right: 40px;
+      min-height: 36px;
+    }
+  }
+}
+.btn-buy {
+  width: 100%;
+  height: 46px;
+  @include NotoSans(1.8, 500, #fff);
+  background-color: #4bc1c2;
+  &:disabled {
+    background-color: #dddddd !important;
+    color: #fff !important;
   }
 }
 input[type="number"] {
@@ -88,6 +149,11 @@ input[type="number"] {
 }
 .ck-wrap {
   position: relative;
+  @include NotoSans(1.4, 500, #000);
+  span {
+    text-decoration: underline;
+    cursor: pointer;
+  }
   input[id="ck"] {
     display: none;
   }
